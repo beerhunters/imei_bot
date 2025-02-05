@@ -29,6 +29,7 @@ async def check_imei(request: IMEIRequest):
 
     async with httpx.AsyncClient() as client:
         response = await client.get(
+            # f"https://api.imeicheck.net/{request.imei}",
             f"https://imeicheck.net/api/check/{request.imei}",
             headers={"Authorization": f"Bearer {settings.API_TOKEN}"},
         )

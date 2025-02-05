@@ -5,7 +5,7 @@ from aiogram.types import Message
 from aiogram.filters import CommandStart
 
 from app.config import settings
-from app.imei_checker import check_imei_api
+from app.imei_checker import check_imei_api, format_imei_response
 from app.rq import is_user_allowed
 from app.utils import validate_imei
 
@@ -35,7 +35,8 @@ async def imei_handler(message: Message):
         return
 
     response = await check_imei_api(imei)
-    await message.answer(response)
+    result = await format_imei_response(response)
+    await message.answer(result, parse_mode="HTML")
 
 
 async def start_bot():
