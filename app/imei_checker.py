@@ -1,6 +1,6 @@
+# imei_checker.py
 import httpx
 from app.config import settings
-import json
 
 
 async def check_imei_api(device_id: str) -> dict:
@@ -23,28 +23,7 @@ async def check_imei_api(device_id: str) -> dict:
 
     # Получаем данные ответа
     response_data = response.json()
-
-    # Проверяем на наличие тестового предупреждения
-    if "!!! WARNING !!!" in response_data:
-        warning_message = response_data["!!! WARNING !!!"]
-        response_data["test_mode_warning"] = (
-            "Вы используете тестовые данные в песочнице. Это не реальные данные."
-        )
-
-        # Можно вывести предупреждение в логах, если нужно
-        # print(warning_message)
-
-        # Отправляем только предупреждающее сообщение
-        # await message.answer(
-        #     f"Внимание: {warning_message}\nТестовый режим активен. Эти данные не реальные."
-        # )
-        print(warning_message)
-    else:
-        # Если нет тестового предупреждения, просто отправляем данные
-        # await message.answer(json.dumps(response_data, ensure_ascii=False))
-        print(json.dumps(response_data, ensure_ascii=False))
     return response_data
-    # return json.dumps(response_data, ensure_ascii=False)
 
 
 async def format_imei_response(response_data: dict) -> str:
